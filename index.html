@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud Based Voting System</title>
+</head>
+<body>
+
+  <h2>Cloud Based Voting System</h2>
+
+  <h3>Voter Login</h3>
+  <input type="text" id="voterId" placeholder="Voter ID">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+
+  <h3>Cast Your Vote</h3>
+  <select id="candidate">
+    <option value="">Select Candidate</option>
+    <option value="Candidate A">Candidate A</option>
+    <option value="Candidate B">Candidate B</option>
+    <option value="Candidate C">Candidate C</option>
+  </select>
+  <button onclick="vote()">Submit Vote</button>
+
+  <h3>Election Result</h3>
+  <button onclick="showResult()">View Result</button>
+
+  <p id="message"></p>
+
+  <script>
+    let loginStatus = false;
+    let voted = false;
+
+    let votes = {
+      "Candidate A": 0,
+      "Candidate B": 0,
+      "Candidate C": 0
+    };
+
+    function login() {
+      let id = document.getElementById("voterId").value;
+      let pass = document.getElementById("password").value;
+
+      if (id != "" && pass != "") {
+        loginStatus = true;
+        document.getElementById("message").textContent = "Login Successful";
+      } else {
+        document.getElementById("message").textContent =
+          "Enter valid login details";
+      }
+    }
+
+    function vote() {
+      if (!loginStatus) {
+        document.getElementById("message").textContent =
+          "Please Login First";
+        return;
+      }
+
+      if (voted) {
+        document.getElementById("message").textContent =
+          "You have already voted";
+        return;
+      }
+
+      let candidate = document.getElementById("candidate").value;
+
+      if (candidate == "") {
+        document.getElementById("message").textContent =
+          "Select a Candidate";
+        return;
+      }
+
+      votes[candidate]++;
+      voted = true;
+
+      document.getElementById("message").textContent =
+        "Vote Submitted Successfully";
+    }
+
+    function showResult() {
+      document.getElementById("message").innerHTML =
+        "Candidate A: " + votes["Candidate A"] + " Votes<br>" +
+        "Candidate B: " + votes["Candidate B"] + " Votes<br>" +
+        "Candidate C: " + votes["Candidate C"] + " Votes";
+    }
+  </script>
+
+</body>
+</html>
